@@ -13,10 +13,10 @@ The project is structured in
 * a functions file __lib/imghelper_lib.py__ : contains all the functions responsible for file manipulation
 
 ### usage:
--r to rotate
--s to resize
---dir to read and save entire folders
---file to read and save a single file
+* -r to rotate
+* -s to resize
+* --dir to read and save entire folders
+* --file to read and save a single file
 
 ./imghelper_main.py -r <angle: 90 180 or 270> -s __height__ __width__ [--dir | --file] __read_path__ __save_path__
   
