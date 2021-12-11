@@ -35,20 +35,20 @@ def parse_arguments():
                  action='store',
                  nargs=2,
                  )
-    add_argument('--jpg',
-                 dest="jpg",
-                 action='store_true',
-                 )
-    add_argument('--prefix ',
-                 dest='name',
-                 action="store",
-                 nargs="?",
-                 )
-    add_argument('--suffix ',
-                 dest='name',
-                 action="store",
-                 nargs="?",
-                 )
+    # add_argument('--jpg',
+    #              dest="jpg",
+    #              action='store_true',
+    #              )
+    # add_argument('--prefix ',
+    #              dest='name',
+    #              action="store",
+    #              nargs="?",
+    #              )
+    # add_argument('--suffix ',
+    #              dest='name',
+    #              action="store",
+    #              nargs="?",
+    #              )
     return parser.parse_args()
 
 
