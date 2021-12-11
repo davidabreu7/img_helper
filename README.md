@@ -13,5 +13,5 @@ The project is structured in
 * a functions file __lib/imghelper_lib.py__ : contains all the functions responsible for file manipulation
 
 ### usage:
-./imghelper_main.py -r <angle: 90 180 or 270> -s <height> <width> [--dir | --file] <read path> <save path>
+./imghelper_main.py -r <angle: 90 180 or 270> -s __height__ __width__ [--dir | --file] __read_path__ __save_path__
   
