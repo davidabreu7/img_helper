@@ -1,72 +1,83 @@
 import os
 import sys
-from collections import namedtuple
 
 
-def parse_path(paths: list[str]) -> namedtuple:
-    # creating namedtuple with paths
-    ImagePath = namedtuple("ImagePath", "read save")
+def parse_file(path_file: list[str]) -> dict:
+    """
+    read list of strings and returns dictionary of paths parsed_path[read:<file>, save:<file>
+    if save dir does not exists, create it.
+    :param path_file: list of strings of paths passed by CLI argument
+    :return: dictionary with read and save paths
+    """
+    parsed_path = {}
+    save_dir = os.path.dirname(path_file[1])
 
-    # parsing ImagePath.read
-    ImagePath.read = os.path.abspath(paths[0])
-
-    if os.path.exists(ImagePath.read):
-        if os.path.isfile(ImagePath.read):
-            ImagePath.read = [os.path.abspath(ImagePath.read)]
-        if os.path.isdir(ImagePath.read[0]):
-            dir_name = ImagePath.read
-            list_dir = os.listdir(ImagePath.read)
-            ImagePath.read = [os.path.join(dir_name, file) for file in list_dir if
-                              os.path.isfile(os.path.join(dir_name, file))]
+    if os.path.exists(path_file[0]) and os.path.isfile(path_file[0]):
+        parsed_path["read"] = path_file[0]
     else:
         print("file not found")
         sys.exit(1)
 
-    # parsing ImagePath.save
-    if len(paths) < 2:
-        if os.path.isfile(paths[0]):
-            ImagePath.save = [os.path.join(os.path.abspath(os.path.dirname(ImagePath.read[0])), "imghelper/",
-                                           os.path.basename(paths[0]))]
-        else:
-            ImagePath.save = [os.path.join(os.path.abspath(paths[0]), "imghelper/")]
+    if not os.path.exists(save_dir):
+        os.mkdir(save_dir)
 
-    else:
-        ImagePath.save = [paths[1]]
-        print(ImagePath.save)
+    parsed_path["save"] = path_file[1]
 
-    if not os.path.exists(ImagePath.save[0]):
-        if os.path.sep == ImagePath.save[0][-1]:
-            file_save_name = [os.path.basename(file) for file in ImagePath.read]
-            dir_save_name = ImagePath.save[0]
-            os.mkdir(ImagePath.save[0])
-            ImagePath.save = [os.path.join(dir_save_name, file) for file in file_save_name]
+    return parsed_path
+
+
+def parse_dir(path_dir: list[str]) -> dict:
+    """
+    read list of strings and returns dictionary of paths parsed_path[read:<file>, save:<file>
+    if save dir does not exists, create it.
+    :param path_dir: list of strings of paths passed by CLI argument
+    :return: dictionary with read and save paths
+    """
+    parsed_path = {}
+    if os.path.exists(path_dir[0]) and os.path.isdir(path_dir[0]):
+        parsed_path["read"] = [os.path.join(path_dir[0], file) for file in os.listdir(path_dir[0])]
+
+        if not os.path.exists(path_dir[1]):
+            os.mkdir(path_dir[1])
+
+        parsed_path["save"] = [os.path.join(path_dir[1], file) for file in os.listdir(path_dir[0])]
     else:
-        file_save_name = [os.path.basename(file) for file in ImagePath.read]
-        dir_save_name = ImagePath.save[0]
-        ImagePath.save = [os.path.join(dir_save_name, file) for file in file_save_name]
-    return ImagePath
+        print("folder not found")
+        sys.exit(1)
+
+    return parsed_path
 
 
 def rotate_img(angle_arg, img_obj_list):
+    """
+    :param angle_arg:
+    :param img_obj_list:
+    :return: image object list
+    """
     angle = int(angle_arg[0])
     img_obj_list = [img_obj.rotate(angle, expand=True) for img_obj in img_obj_list]
     return img_obj_list
 
 
 def resize_img(sizes, img_obj_list):
+    """
+    :param sizes:
+    :param img_obj_list:
+    :return: image object list
+    """
     height, width = int(sizes[0]), int(sizes[1])
     new_size = (height, width)
     img_obj_list = [img_obj.resize(new_size) for img_obj in img_obj_list]
     return img_obj_list
 
-
-def change_format(new_format, img_obj_list):
-    pass
-
-
-def add_prefix(prefix: list[str], img_ob_list):
-    pass
-
-
-def add_suffix(prefix: list[str], img_ob_list):
-    pass
+#
+# def change_format(new_format, img_obj_list):
+#     pass
+#
+#
+# def add_prefix(prefix: list[str], img_ob_list):
+#     pass
+#
+#
+# def add_suffix(prefix: list[str], img_ob_list):
+#     pass
