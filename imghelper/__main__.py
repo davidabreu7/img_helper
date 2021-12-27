@@ -1,9 +1,11 @@
-#!/home/dvlinux/PycharmProjects/img_helper/venv/bin/python3.10
 import argparse
+import os
+import sys
 
 from PIL import Image
 
-from lib.imghelper_lib import *
+from .imghelper_lib import rotate_img, resize_img
+from .parser import parse_dir, parse_file
 
 
 def parse_arguments():
